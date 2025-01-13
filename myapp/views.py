@@ -230,8 +230,7 @@ def logout(request):
     return redirect("login")   
 
 def adminhomepage(request):
-    try:
-        # Fetch all user data from Firebase
+    try: 
         all_users = db.child("users").get().val()
 
         if not all_users:
