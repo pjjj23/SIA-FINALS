@@ -236,8 +236,7 @@ def adminhomepage(request):
         if not all_users:
             messages.error(request, "No users found in the database.")
             return render(request, "adminhomepage.html", {"users": []})
-
-        # Pass the fetched data to the template
+ 
         return render(request, "adminhomepage.html", {"users": all_users})
 
     except Exception as e:
