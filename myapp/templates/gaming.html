@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            background: #333;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .tile {
+            width: 80px;
+            height: 80px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-radius: 2px;
+        }
+
+        .tile:hover {
+            background: #f0f0f0;
+        }
+
+        .empty {
+            background: #333;
+        }
+
+        .empty:hover {
+            background: #333;
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: #333;
+        }
+
+        .moves {
+            margin-top: 10px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Sliding Puzzle</h1>
+        <div class="puzzle" id="puzzle"></div>
+        <div class="controls">
+            <button onclick="shuffleTiles()">New Game</button>
+        </div>
+        <div class="moves" id="moves">Moves: 0</div>
+    </div>
+
+    <script>
+        let tiles = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+        let moves = 0;
+        const puzzle = document.getElementById('puzzle');
+        const movesDisplay = document.getElementById('moves');
+
+        function createPuzzle() {
+            puzzle.innerHTML = '';
+            tiles.forEach((tile, index) => {
+                const tileElement = document.createElement('div');
+                tileElement.className = `tile ${tile === '' ? 'empty' : ''}`;
+                tileElement.textContent = tile;
+                tileElement.addEventListener('click', () => moveTile(index));
+                puzzle.appendChild(tileElement);
+            });
+        }
+
+        function moveTile(index) {
+            const emptyIndex = tiles.indexOf('');
+            if (isAdjacent(index, emptyIndex)) {
+                // Swap tiles
+                [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+                moves++;
+                movesDisplay.textContent = `Moves: ${moves}`;
+                createPuzzle();
+                checkWin();
+            }
+        }
+
+        function isAdjacent(index1, index2) {
+            const row1 = Math.floor(index1 / 3);
+            const col1 = index1 % 3;
+            const row2 = Math.floor(index2 / 3);
+            const col2 = index2 % 3;
+            
+            return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
+        }
+
+        function shuffleTiles() {
+            // Fisher-Yates shuffle
+            for (let i = tiles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+            }
+            
+            // Ensure puzzle is solvable
+            if (!isSolvable()) {
+                // Swap first two tiles if puzzle is not solvable
+                [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
+            }
+            
+            moves = 0;
+            movesDisplay.textContent = `Moves: ${moves}`;
+            createPuzzle();
+        }
+
+        function isSolvable() {
+            let inversions = 0;
+            const puzzleWithoutEmpty = tiles.filter(tile => tile !== '');
+            
+            for (let i = 0; i < puzzleWithoutEmpty.length - 1; i++) {
+                for (let j = i + 1; j < puzzleWithoutEmpty.length; j++) {
+                    if (puzzleWithoutEmpty[i] > puzzleWithoutEmpty[j]) {
+                        inversions++;
+                    }
+                }
+            }
+            
+            return inversions % 2 === 0;
+        }
+
+        function checkWin() {
+            const solution = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+            if (tiles.every((tile, index) => tile === solution[index])) {
+                setTimeout(() => {
+                    alert(`Congratulations! You solved the puzzle in ${moves} moves!`);
+                }, 100);
+            }
+        }
+
+        // Initialize puzzle
+        shuffleTiles();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            color: #1a1a1a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+        }
+
+        .game-container {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-width: 90vw;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+        }
+
+        .puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 12px;
+            margin: 0 auto;
+        }
+
+        .tile {
+            aspect-ratio: 1;
+            width: clamp(60px, 20vw, 100px);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.25rem, 4vw, 2rem);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            color: #1a1a1a;
+            user-select: none;
+        }
+
+        .tile:hover {
+            background: #f0f0f0;
+            transform: scale(0.98);
+        }
+
+        .empty {
+            background: #1a1a1a;
+        }
+
+        .empty:hover {
+            background: #1a1a1a;
+            transform: none;
+        }
+
+        .controls {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .game-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        .game-button:active {
+            transform: translateY(0);
+        }
+
+        .moves {
+            margin-top: 16px;
+            text-align: center;
+            color: #4b5563;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 480px) {
+            .game-container {
+                padding: 16px;
+            }
+
+            .tile {
+                width: clamp(50px, 25vw, 80px);
+            }
+
+            .back-button {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="userhomepage()">
+        <i data-lucide="arrow-left"></i>
+        Back
+    </button>
+ 
+
+    <script>
+        function userhomepage(){
+            window.location.href="{% url 'userhomepage' %}"
+        }
+    </script>
+    <script>
+        lucide.createIcons();
+        
+        let tiles = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+        let moves = 0;
+        const puzzle = document.getElementById('puzzle');
+        const movesDisplay = document.getElementById('moves');
+
+        function createPuzzle() {
+            puzzle.innerHTML = '';
+            tiles.forEach((tile, index) => {
+                const tileElement = document.createElement('div');
+                tileElement.className = `tile ${tile === '' ? 'empty' : ''}`;
+                tileElement.textContent = tile;
+                tileElement.addEventListener('click', () => moveTile(index));
+                puzzle.appendChild(tileElement);
+            });
+        }
+
+        function moveTile(index) {
+            const emptyIndex = tiles.indexOf('');
+            if (isAdjacent(index, emptyIndex)) {
+                [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+                moves++;
+                movesDisplay.textContent = `Moves: ${moves}`;
+                createPuzzle();
+                checkWin();
+            }
+        }
+
+        function isAdjacent(index1, index2) {
+            const row1 = Math.floor(index1 / 3);
+            const col1 = index1 % 3;
+            const row2 = Math.floor(index2 / 3);
+            const col2 = index2 % 3;
+            return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
+        }
+
+        function shuffleTiles() {
+            for (let i = tiles.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
+            }
+            
+            if (!isSolvable()) {
+                [tiles[0], tiles[1]] = [tiles[1], tiles[0]];
+            }
+            
+            moves = 0;
+            movesDisplay.textContent = `Moves: ${moves}`;
+            createPuzzle();
+        }
+
+        function isSolvable() {
+            let inversions = 0;
+            const puzzleWithoutEmpty = tiles.filter(tile => tile !== '');
+            
+            for (let i = 0; i < puzzleWithoutEmpty.length - 1; i++) {
+                for (let j = i + 1; j < puzzleWithoutEmpty.length; j++) {
+                    if (puzzleWithoutEmpty[i] > puzzleWithoutEmpty[j]) {
+                        inversions++;
+                    }
+                }
+            }
+            
+            return inversions % 2 === 0;
+        }
+
+        function checkWin() {
+            const solution = [1, 2, 3, 4, 5, 6, 7, 8, ''];
+            if (tiles.every((tile, index) => tile === solution[index])) {
+                setTimeout(() => {
+                    alert(`Congratulations! You solved the puzzle in ${moves} moves!`);
+                }, 100);
+            }
+        }
+
+        shuffleTiles();
+
+         
+    </script>
+</body>
+</html>

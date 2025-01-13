@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Navigation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+
+        .logo {
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            color: #4b5563;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            color: #1a1a1a;
+            background-color: #f5f5f5;
+        }
+
+        .icon {
+            width: 1.15rem;
+            height: 1.15rem;
+            margin-right: 0.5rem;
+            stroke-width: 1.75;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            font: inherit;
+            cursor: pointer;
+            color: #ef4444;
+        }
+
+        .logout-btn:hover {
+            background-color: #fef2f2;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #4b5563;
+        }
+
+        /* Game Button Styles */
+        .game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .game-button {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border: none;
+            border-radius: 1rem;
+            padding: 1.5rem 3rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.6);
+        }
+
+        .game-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .game-button .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-left: 0.75rem;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 4rem;
+                left: 0;
+                right: 0;
+                background-color: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                 
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .nav-item {
+                width: 100%;
+                padding: 0.75rem 1.5rem;
+                border-radius: 0;
+                
+            }
+
+            .nav-item:hover {
+                background-color: #f5f5f5;
+            }
+
+            .icon {
+                margin-right: 0.75rem;
+            }
+
+            .game-button {
+                font-size: 1.25rem;
+                padding: 1.25rem 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">Hello, {{ user_data.username }}!</a>
+                <button class="menu-btn" id="menuBtn">
+                    <i class="fas fa-bars"></i>
+
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="#" class="nav-item">
+                        <i class="icon" data-lucide="home"></i>
+                        <span>Home</span>
+                    </a> 
+
+                    <a href="{% url 'about' %}" class="nav-item">
+                        <i class="icon" data-lucide="users"></i>
+                        <span>About</span>
+                    </a>
+                    
+                    <a href="{% url 'contact' %}" class="nav-item">
+                        <i class="icon" data-lucide="mail"></i>
+                        <span>Contact</span>
+                    </a>
+                    
+                    <button id="logoutBtn" class="nav-item logout-btn" onclick="loggingoutpo()">
+                        <i class="icon" data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="game-container">
+        <button class="game-button" onclick="gameAbad()">
+            Continue to Play our game developed by John Roland Abad
+            <i class="icon" data-lucide="play-circle"></i>
+        </button>
+    </div>
+
+    <script>
+        if (window.lucide) {
+    lucide.createIcons();
+}
+        
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const menuIcon = menuBtn.querySelector('i');
+            if (navLinks.classList.contains('active')) {
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
+                navLinks.classList.remove('active');
+                const menuIcon = menuBtn.querySelector('i');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            console.log('Logout clicked');
+        });
+        function gameAbad(){
+            window.location.href="{% url 'gaming' %}"
+        }
+
+        function loggingoutpo(){
+            window.location.href="{% url 'logout' %}"
+        }
+    </script>
+</body>
+</html>

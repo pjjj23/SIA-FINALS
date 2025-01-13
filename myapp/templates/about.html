@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datalink Team - About Us</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            background: #1a237e;
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        .navbar h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(26, 35, 126, 0.9), rgba(26, 35, 126, 0.9)),
+                        url("/api/placeholder/1920/1080");
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .main-content {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h3 {
+            color: #1a237e;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h4 {
+            color: #1a237e;
+            margin-bottom: 1rem;
+        }
+
+        /* Team Section Styles */
+        .team-section {
+            padding: 2rem 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .member-avatar {
+            width: 150px;
+            height: 150px;
+            background: #1a237e;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .team-member h4 {
+            color: #1a237e;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .team-member p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .role-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            background: #e8eaf6;
+            color: #1a237e;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .member-avatar {
+                width: 120px;
+                height: 120px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" onclick="goback()">
+        <h1>Back</h1>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Transforming Data Pipelines at SIA</h2>
+            <p>We're a dedicated team of data specialists working to revolutionize data processing and analytics.</p>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <section class="section" data-aos="fade-up">
+            <h3>Meet Our Team</h3>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Philip John Bonbon</h4>
+                    <p>Leading our team with expertise and vision</p>
+                    <span class="role-tag">Scrum Master</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>John Roland Abad</h4>
+                    <p>Data Engineering Specialist</p>
+                    <span class="role-tag">Team Member</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Mea Sarah Jean Palis</h4>
+                    <p>Data Analytics Expert</p>
+                    <span class="role-tag">Team Member</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Rocelyn Lonzaga</h4>
+                    <p>Integration Specialist</p>
+                    <span class="role-tag">Team Member</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4>Jessel Ann Ortega</h4>
+                    <p>Data Pipeline Developer</p>
+                    <span class="role-tag">Team Member</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-aos="fade-up">
+            <h3>Our Expertise</h3>
+            <div class="cards">
+                <div class="card">
+                    <h4>Data Engineering</h4>
+                    <p>Building robust and scalable data pipelines using cutting-edge technologies and best practices in data engineering.</p>
+                </div>
+                <div class="card">
+                    <h4>Analytics</h4>
+                    <p>Transforming raw data into meaningful insights through advanced analytics and visualization techniques.</p>
+                </div>
+                <div class="card">
+                    <h4>Integration</h4>
+                    <p>Seamlessly connecting different data sources and systems to create a unified data ecosystem.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-aos="fade-up">
+            <h3>Our Impact</h3>
+            <p>Through our pipeline project, we're helping SIA achieve:</p>
+            <div class="cards">
+                <div class="card">
+                    <h4>Efficiency</h4>
+                    <p>Automated data processing reducing manual effort and minimizing errors.</p>
+                </div>
+                <div class="card">
+                    <h4>Insights</h4>
+                    <p>Real-time analytics enabling data-driven decision making.</p>
+                </div>
+                <div class="card">
+                    <h4>Innovation</h4>
+                    <p>Modern data architecture supporting future growth and scalability.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Datalink Team. All rights reserved.</p>
+    </footer>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        function goback(){
+            window.location.href="{% url 'userhomepage' %}"
+        }
+    </script>
+</body>
+</html>

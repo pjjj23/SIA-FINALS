@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0) 70%);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes pulse {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+      100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    }
+
+    .continue-btn {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      padding: clamp(12px, 4vw, 16px) clamp(30px, 8vw, 45px);
+      font-size: clamp(16px, 4vw, 18px);
+      color: white;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .continue-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      z-index: -1;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .continue-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                  0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .continue-btn:hover::before {
+      transform: scaleX(1);
+    }
+
+    .continue-btn:hover::after {
+      opacity: 1;
+    }
+
+    .continue-btn span {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 2vw, 8px);
+    }
+
+    .continue-btn .text {
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+
+    .continue-btn:hover .text {
+      transform: translateX(-3px);
+    }
+
+    .continue-btn .arrow {
+      width: clamp(12px, 3vw, 16px);
+      height: clamp(12px, 3vw, 16px);
+      transform: translateX(0);
+      transition: transform 0.3s ease;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 0;
+    }
+
+    .continue-btn:hover .arrow {
+      transform: translateX(5px);
+      animation: drawArrow 0.6s ease forwards;
+    }
+
+    @keyframes drawArrow {
+      0% { stroke-dashoffset: 30; }
+      60% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleEffect 0.6s linear;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 75%);
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @media (hover: none) {
+      .continue-btn:active {
+        transform: scale(0.98);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .continue-btn,
+      .continue-btn::before,
+      .continue-btn::after,
+      .glow,
+      .ripple {
+        transition: none;
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="glow"></div>
+    <button class="continue-btn" onclick="goTOanu()">
+      <span>
+        <span class="text">Continue</span>
+        <svg class="arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 8H15M15 8L8 1M15 8L8 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+    <div class="particles"></div>
+  </div>
+
+  <script>
+    const button = document.querySelector('.continue-btn');
+    const particles = document.querySelector('.particles');
+    
+    function createParticle(x, y) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      const size = Math.random() * 3 + 1;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      
+      const destinationX = (Math.random() - 0.5) * 100;
+      const destinationY = (Math.random() - 0.5) * 100;
+      
+      particle.style.left = `${x}px`;
+      particle.style.top = `${y}px`;
+      particle.style.opacity = '1';
+      
+      particles.appendChild(particle);
+      
+      const animation = particle.animate([
+        {
+          transform: 'translate(0, 0)',
+          opacity: 1
+        },
+        {
+          transform: `translate(${destinationX}px, ${destinationY}px)`,
+          opacity: 0
+        }
+      ], {
+        duration: 1000,
+        easing: 'cubic-bezier(0, .9, .57, 1)',
+        delay: Math.random() * 200
+      });
+      
+      animation.onfinish = () => particle.remove();
+    }
+    
+    function handleInteraction(e) {
+      if (e.type === 'touchstart') {
+        e.preventDefault();
+      }
+      
+      const rect = button.getBoundingClientRect();
+      const x = e.type === 'touchstart' ? e.touches[0].clientX - rect.left : e.clientX - rect.left;
+      const y = e.type === 'touchstart' ? e.touches[0].clientY - rect.top : e.clientY - rect.top;
+      
+      // Create ripple
+      const ripple = document.createElement('div');
+      ripple.classList.add('ripple');
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x - size/2}px`;
+      ripple.style.top = `${y - size/2}px`;
+      button.appendChild(ripple);
+      
+      // Create particles
+      for (let i = 0; i < 20; i++) {
+        createParticle(x, y);
+      }
+      
+      // Button press effect
+      button.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        button.style.transform = '';
+      }, 150);
+      
+      ripple.addEventListener('animationend', () => {
+        ripple.remove();
+      });
+    }
+
+    ['click', 'touchstart'].forEach(event => {
+      button.addEventListener(event, handleInteraction);
+    });
+
+    function goTOanu(){
+        window.location.href="{% url 'login' %}"
+    }
+  </script>
+</body>
+</html>
