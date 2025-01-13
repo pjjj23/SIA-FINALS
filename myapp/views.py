@@ -224,14 +224,9 @@ def contact(request):
     return render(request, "contact.html")
 
 
-def logout(request):
-    # Clear the session data
-    request.session.flush()
-    
-    # Optionally, display a logout success message
-    messages.success(request, "You have been successfully logged out.")
-    
-    # Redirect to the home page
+def logout(request): 
+    request.session.flush() 
+    messages.success(request, "You have been successfully logged out.") 
     return redirect("login")   
 
 def adminhomepage(request):
